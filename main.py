@@ -9,31 +9,49 @@ def check_win():
     global my_object,pc_object,new_game
     if new_game == False:
         return
+    resalt = None
+
     if my_object == "scissors":
         if pc_object == "paper":
             new_game = False
             game_statistics.points_my +=1
+            resalt = "win"
         elif pc_object == "stone":
             new_game = False
             game_statistics.points_pc +=1
+            resalt = "lose"
     elif my_object == "paper":
         if pc_object == "scissors":
             new_game = False
             game_statistics.points_pc +=1
+            resalt = "lose"
         elif pc_object == "stone":
             new_game = False
             game_statistics.points_my +=1
+            resalt = "win"
     elif my_object == "stone":
         if pc_object == "scissors":
             new_game = False
             game_statistics.points_my +=1
+            resalt = "win"
         elif pc_object == "paper":
             new_game = False
-
             game_statistics.points_pc +=1
+            resalt = "lose"
+    if pc_object == my_object:
+        resalt = "ne"
     my_object = None
     pc_object = None
     game_statistics.create_text()
+    if resalt == "win":
+        game_statistics.image = game_statistics.image_win
+        game_statistics.show = True
+    elif resalt == "lose":
+        game_statistics.image = game_statistics.image_lose
+        game_statistics.rect.centerx += 30
+        game_statistics.show = True
+
+
 
 def restart_game():
     print("restart")
@@ -50,7 +68,9 @@ def restart_game():
     move_stone_pc = False
     move_scissors_pc = False
     moving_pc = False
-
+    game_statistics.show = False
+    pc_object = None
+    my_object = None
 
 
 def turn_pc():#начало хода компютера
